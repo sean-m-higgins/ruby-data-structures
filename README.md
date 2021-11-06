@@ -14,7 +14,7 @@ Time complexity:
  - Search: O(n)
  - Insert/Delete: O(1)
 
-# Hash Tables
+# Hash Table
 Time complexity:
  - Access: O(1)
  - Search: O(1)
@@ -32,6 +32,8 @@ Time complexity:
  - Search: O(n)
  - Insert/Delete: O(1)
 
-# Trees
+# Tree
 
-# Graphs
+# Heap
+
+# Graph
