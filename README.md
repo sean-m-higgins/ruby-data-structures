@@ -7,7 +7,6 @@ Time complexity:
  - Search: O(n)
  - Insert/Delete: O(n)
 
-
 # Linked List
 Time complexity:
  - Access: O(n)
