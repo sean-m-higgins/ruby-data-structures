@@ -1,10 +1,13 @@
 $LOAD_PATH << File.dirname(__FILE__)
 
 require 'linked_list'
+require 'hash_map'
+require 'array'
+require 'stack'
 
 require "rspec/autorun"
 
-# ----------------------- Linked Lists -------------------------
+# ----------------------- Linked List -------------------------
 ll = LinkedListOfMine.new(40)
 ll.push(99)
 ll.push(77)
@@ -99,6 +102,29 @@ describe LinkedListOfMine, ".print_list" do
         expect(out_str_err).to eq "error: empty list"
     end
 end
+
+
+# ----------------------- Hash Map -------------------------
+hm = HashMapOfMine.new(2)
+hm.add("hello", "world")
+hm.add("foo", "bar")
+puts hm.hash(20)
+puts hm.print_hash_map
+puts hm.get("hello")
+hm.get("hi")
+hm.delete("hello")
+puts hm.print_hash_map
+
+
+
+
+
+# ----------------------- Array -------------------------
+
+
+
+# ----------------------- Stack -------------------------
+
 
 
 # ----------------------- ??? -------------------------
