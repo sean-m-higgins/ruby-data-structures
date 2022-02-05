@@ -15,7 +15,7 @@ class HashMapOfMine
             puts "error : no elements to create buckets"
         end
         buckets = []
-        for i in (0..@size)
+        for i in (1..@size)
             buckets.append([])
         end
         return buckets
@@ -28,13 +28,13 @@ class HashMapOfMine
         return key.hash % @size
     end
 
+    #// TODO add fix to make test pass... resize map upon addition that exceeds the size
     def add(key, value)
         if @size == 0
             @size = 1
             @hash_map = create_buckets()
         end
-        hashed = hash(key)
-        bucket = @hash_map.at(hashed)
+        bucket = get_bucket_for_key(key)
         result = check_bucket_for_key(key, bucket)
         key_exists = result[0]
         if key_exists
@@ -42,6 +42,13 @@ class HashMapOfMine
         else
             bucket.append([key, value])
         end
+    end
+
+    # // TODO make private??
+    def get_bucket_for_key(key)
+        hashed = hash(key)
+        bucket = @hash_map.at(hashed)
+        return bucket
     end
 
     def check_bucket_for_key(key, bucket)
@@ -64,8 +71,7 @@ class HashMapOfMine
         if @size == 0
             puts "error : no elements to get"
         end
-        hashed = hash(key)
-        bucket = @hash_map.at(hashed)
+        bucket = get_bucket_for_key(key)
         value = nil
         result = check_bucket_for_key(key, bucket)
         key_exists = result[0]
@@ -82,12 +88,12 @@ class HashMapOfMine
         if @size == 0
             puts "error : no elements to get"
         end
-        hashed = hash(key)
-        bucket = @hash_map.at(hashed)
+        bucket = get_bucket_for_key(key)
         result = check_bucket_for_key(key, bucket)
         key_exists = result[0]
         if key_exists
             bucket.delete_at(result[1])
+            @size -= 1
         else
             puts "no record found for key: " + key.to_s
         end
@@ -114,6 +120,18 @@ class HashMapOfMine
         end
         print_str += "\n}"
         return print_str
+    end
+
+    def check_size
+
+    end
+
+    def set_size(size)
+        @size = size
+    end
+
+    def get_size
+        return @size
     end
 
 end
