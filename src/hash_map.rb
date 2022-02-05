@@ -2,6 +2,8 @@ $LOAD_PATH << File.dirname(__FILE__)
 
 class HashMapOfMine
 
+    attr_accessor :buckets, :size, :num_buckets
+    
     def initialize(size=nil)
         @size = 0
         if size != nil
@@ -122,7 +124,13 @@ class HashMapOfMine
         return print_str
     end
 
+    # //TODO 
     def check_size
+
+    end
+
+    # //TODO 
+    def resize
 
     end
 
@@ -130,8 +138,19 @@ class HashMapOfMine
         @size = size
     end
 
-    def get_size
-        return @size
+    # //TODO 
+    def include?()
+
+    end
+
+    # //TODO 
+    def each()
+
+    end
+
+    # //TODO 
+    def inspect
+
     end
 
 end

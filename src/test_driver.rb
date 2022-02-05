@@ -114,13 +114,13 @@ puts hm.get("hello")
 hm.get("hi")
 hm.delete("hello")
 puts hm.print_hash_map
-puts hm.get_size
+puts hm.size
 
 describe HashMapOfMine, ".add" do 
     it "it adds one record" do
         hm = HashMapOfMine.new(1)
         hm.add("hello", "world")
-        hm_size = hm.get_size
+        hm_size = hm.size
         expect(hm_size).to eq 1
     end
 end
@@ -130,7 +130,7 @@ describe HashMapOfMine, ".add" do
         hm = HashMapOfMine.new(1)
         hm.add("hello", "world")
         hm.add("foo", "bar")
-        hm_size = hm.get_size
+        hm_size = hm.size
         expect(hm_size).to eq 2
     end
 end
@@ -149,7 +149,7 @@ describe HashMapOfMine, ".delete" do
         hm = HashMapOfMine.new(1)
         hm.add("hello", "world")
         hm.delete("hello")
-        hm_size = hm.get_size
+        hm_size = hm.size
         expect(hm_size).to eq 0
     end
 end
@@ -159,7 +159,7 @@ describe HashMapOfMine, ".create_buckets" do
         hm = HashMapOfMine.new
         hm.set_size(3)
         buckets = hm.create_buckets
-        hm_size = hm.get_size
+        hm_size = hm.size
         expect(hm_size).to eq 3
         expect(buckets).to eq [[],[],[]]
     end
