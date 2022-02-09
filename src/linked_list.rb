@@ -131,5 +131,14 @@ class LinkedListOfMine
         print_str += " --> nil ]"
         return print_str
     end
+
+    # //TODO 
+    def each(&block)
+        cur_node = @head
+        while cur_node != nil
+            yield cur_node
+            cur_node = cur_node.next_node
+        end
+    end
     
 end

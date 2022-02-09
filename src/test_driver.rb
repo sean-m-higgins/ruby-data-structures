@@ -154,47 +154,47 @@ describe HashMapOfMine, ".delete" do
     end
 end
 
-describe HashMapOfMine, ".create_buckets" do 
-    it "it creates correct number of buckets" do
-        hm = HashMapOfMine.new
-        hm.set_size(3)
-        buckets = hm.create_buckets
-        hm_size = hm.size
-        expect(hm_size).to eq 3
-        expect(buckets).to eq [[],[],[]]
-    end
-end
+# describe HashMapOfMine, ".create_buckets" do 
+#     it "it creates correct number of buckets" do
+#         hm = HashMapOfMine.new
+#         hm.set_map_size(3)
+#         buckets = hm.create_buckets
+#         hm_size = hm.map_size
+#         expect(hm_size).to eq 3
+#         expect(buckets).to eq [[],[],[]]
+#     end
+# end
 
-describe HashMapOfMine, ".check_bucket_for_key" do 
-    it "it adds one record" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        bucket = hm.get_bucket_for_key("hello")
-        result = hm.check_bucket_for_key("hello", bucket)
-        expect(result[0]).to eq true
-        result = hm.check_bucket_for_key("world", bucket)
-        expect(result[0]).to eq false
-    end
-end
+# describe HashMapOfMine, ".check_bucket_for_key" do 
+#     it "it adds one record" do
+#         hm = HashMapOfMine.new(1)
+#         hm.add("hello", "world")
+#         bucket = hm.get_bucket_for_key("hello")
+#         result = hm.check_bucket_for_key("hello", bucket)
+#         expect(result[0]).to eq true
+#         result = hm.check_bucket_for_key("world", bucket)
+#         expect(result[0]).to eq false
+#     end
+# end
 
-describe HashMapOfMine, ".print_hash_map" do 
-    it "it prints hash_map with one record" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        print_str = hm.print_hash_map
-        expect(print_str).to eq "{\n  hello:  world\n}"
-    end
-end
+# describe HashMapOfMine, ".print_hash_map" do 
+#     it "it prints hash_map with one record" do
+#         hm = HashMapOfMine.new(1)
+#         hm.add("hello", "world")
+#         print_str = hm.print_hash_map
+#         expect(print_str).to eq "{\n  hello:  world\n}"
+#     end
+# end
 
-describe HashMapOfMine, ".print_hash_map" do 
-    it "it prints hash_map with two records" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        hm.add("foo", "bar")
-        print_str = hm.print_hash_map
-        expect(print_str).to eq "{\n  hello:  world,\n  foo:  bar\n}"
-    end
-end
+# describe HashMapOfMine, ".print_hash_map" do 
+#     it "it prints hash_map with two records" do
+#         hm = HashMapOfMine.new(1)
+#         hm.add("hello", "world")
+#         hm.add("foo", "bar")
+#         print_str = hm.print_hash_map
+#         expect(print_str).to eq "{\n  hello:  world,\n  foo:  bar\n}"
+#     end
+# end
 
 # ----------------------- Array -------------------------
 
