@@ -241,8 +241,8 @@ end
 describe HashMapOfMine, ".get" do 
     it "it gets correct error from get" do
         test_hm = HashMapOfMine.new
-        val = test_hm.get("hello")
-        expect(val).to eq ERROR_EMPTY + ": in get"
+        result = test_hm.get("hello")
+        expect(result).to eq ERROR_EMPTY + ": in get"
     end
 end
 
@@ -250,50 +250,52 @@ describe HashMapOfMine, ".get" do
     it "it gets correct value from key" do
         test_hm = HashMapOfMine.new(1)
         test_hm.add("hello", "world")
-        val = test_hm.get("hello")
-        expect(val).to eq "world"
+        result = test_hm.get("hello")
+        expect(result).to eq "world"
     end
 end
 
 describe HashMapOfMine, ".get_keys" do 
     it "it gets correct error from get_keys" do
         test_hm = HashMapOfMine.new
-        val = test_hm.get_keys()
-        expect(val).to eq ERROR_EMPTY + ": in get_keys"
+        result = test_hm.get_keys()
+        expect(result).to eq ERROR_EMPTY + ": in get_keys"
     end
 end
 
-# describe HashMapOfMine, ".get_keys" do 
-#     it "it gets correct value from get_keys" do
-#         test_hm = HashMapOfMine.new(1)
-#         test_hm.add("hello", "world")
-#         val = test_hm.get("hello")
-#         expect(val).to eq "world"
-#     end
-# end
+describe HashMapOfMine, ".get_keys" do 
+    it "it gets correct value from get_keys" do
+        test_hm = HashMapOfMine.new
+        test_hm.add("hello", "world")
+        test_hm.add("foo", "bar")
+        result = test_hm.get_keys()
+        expect(result.sort).to eq ["hello", "foo"].sort   #TODO update to ArrayOfMine.new([])
+    end
+end
 
 describe HashMapOfMine, ".get_vals" do 
     it "it gets correct error from get_vals" do
         test_hm = HashMapOfMine.new
-        val = test_hm.get_vals()
-        expect(val).to eq ERROR_EMPTY + ": in get_vals"
+        result = test_hm.get_vals()
+        expect(result).to eq ERROR_EMPTY + ": in get_vals"
     end
 end
 
-# describe HashMapOfMine, ".get_vals" do 
-#     it "it gets correct value from get_vals" do
-#         test_hm = HashMapOfMine.new(1)
-#         test_hm.add("hello", "world")
-#         val = test_hm.get("hello")
-#         expect(val).to eq "world"
-#     end
-# end
+describe HashMapOfMine, ".get_vals" do 
+    it "it gets correct value from get_vals" do
+        test_hm = HashMapOfMine.new
+        test_hm.add("hello", "world")
+        test_hm.add("foo", "bar")
+        result = test_hm.get_vals()
+        expect(result.sort).to eq ["world", "bar"].sort   #TODO update to ArrayOfMine.new([])
+    end
+end
 
 describe HashMapOfMine, ".remove" do 
     it "it gets correct error from remove" do
         test_hm = HashMapOfMine.new
-        val = test_hm.remove("hello")
-        expect(val).to eq ERROR_EMPTY + ": in remove"
+        result = test_hm.remove("hello")
+        expect(result).to eq ERROR_EMPTY + ": in remove"
     end
 end
 

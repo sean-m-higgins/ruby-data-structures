@@ -82,20 +82,30 @@ class HashMapOfMine
         end
     end
 
-    # TODO
     def get_keys
         if empty?
             return ERROR_EMPTY + ": in get_keys"
         end
-
+        keys = []   #TODO update to ArrayOfMine.new
+        @hash_map.each do |bucket|
+            bucket.each do  |record|
+                keys.append(record.data[0])
+            end
+        end
+        keys
     end
 
-    # TODO
     def get_vals
         if empty?
             return ERROR_EMPTY + ": in get_vals"
         end
-
+        vals = []   #TODO update to ArrayOfMine.new
+        @hash_map.each do |bucket|
+            bucket.each do  |record|
+                vals.append(record.data[1])
+            end
+        end
+        vals
     end
 
     def remove(key)
