@@ -1,8 +1,10 @@
 $LOAD_PATH << File.dirname(__FILE__)
 
+require 'constants'
 require 'node'
 
 class LinkedListOfMine
+    include Enumerable
 
     def initialize(data=nil)
         if data != nil
@@ -10,7 +12,7 @@ class LinkedListOfMine
         end
     end
 
-    def is_empty? 
+    def empty? 
         if @head == nil
             return true
         else
@@ -19,15 +21,15 @@ class LinkedListOfMine
     end
 
     def get_head_node
-        if is_empty?
-            return "error: not enough elements"
+        if empty?
+            return ERROR_EMPTY + ": in get_head_node"
         end
         return @head
     end
 
     def get_last_node
-        if is_empty?
-            return "error: not enough elements"
+        if empty?
+            return ERROR_EMPTY + ": in get_last_node"
         end
         cur_node = @head
         while cur_node.next_node != nil
@@ -38,7 +40,7 @@ class LinkedListOfMine
 
     def get_penultimate_node
         if size < 2
-            return "error: not enough elements"
+            return ERROR_NOT_ENOUGH_ELEMENTS + ": in get_penultimate_node"
         end
         cur_node = @head
         while cur_node.next_node.next_node != nil
@@ -48,7 +50,7 @@ class LinkedListOfMine
     end
 
     def push(something)
-        if is_empty?
+        if empty?
             @head = NodeOfMine.new(something)
         else
             new_node = NodeOfMine.new(something)
@@ -58,7 +60,7 @@ class LinkedListOfMine
     end
 
     def push_to_front(something)
-        if is_empty?
+        if empty?
             @head = NodeOfMine.new(something)
         else
             prev_head_node = @head
@@ -68,8 +70,8 @@ class LinkedListOfMine
     end
 
     def pop
-        if is_empty?
-            return "error: empty list"
+        if empty?
+            return ERROR_EMPTY + ": in pop"
         end
         if size == 1
             last_node = @head
@@ -84,8 +86,8 @@ class LinkedListOfMine
     end
 
     def shift
-        if is_empty?
-            return "error: empty list"
+        if empty?
+            return ERROR_EMPTY + ": in shift"
         end
         if size == 1
             last_node = @head
@@ -112,24 +114,22 @@ class LinkedListOfMine
         return counter
     end
 
-    def print_list
-        print_str = ""
-        if is_empty?
-            return "error: empty list"
+    def remove(something)
+        if empty?
+            return ERROR_EMPTY + ": in remove"
         end
         cur_node = @head
-        counter = 0
-        while cur_node != nil
-            if counter == 0
-                print_str += "[ Head "  + counter.to_s + ": " + cur_node.data.to_s
-            else 
-                print_str += " --> Node " + counter.to_s + ": " + cur_node.data.to_s
+        if cur_node.include?(something)
+            @head = cur_node.next_node
+        else
+            while cur_node.next_node != nil
+                if cur_node.next_node.include?(something)
+                    cur_node.next_node = cur_node.next_node.next_node
+                    break
+                end
+                cur_node = cur_node.next_node
             end
-            counter += 1
-            cur_node = cur_node.next_node
         end
-        print_str += " --> nil ]"
-        return print_str
     end
 
     def include?(something)
@@ -148,6 +148,11 @@ class LinkedListOfMine
             yield cur_node
             cur_node = cur_node.next_node
         end
+    end
+
+    def inspect
+        records = map { |node| "#{node.data}" }.join(" --> ")
+        "[ Head: #{records} --> nil ]".inspect
     end
     
 end

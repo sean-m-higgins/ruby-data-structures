@@ -1,5 +1,6 @@
 $LOAD_PATH << File.dirname(__FILE__)
 
+require 'constants'
 require 'linked_list'
 require 'hash_map'
 require 'array'
@@ -16,22 +17,70 @@ puts ll
 puts ll.size
 puts ll.pop.data
 puts ll.size
+puts ll.inspect
 
-puts ll.print_list
+describe LinkedListOfMine, ".get_head_node" do 
+    it "it returns head_node error" do
+        test_ll = LinkedListOfMine.new
+        head_node_err = test_ll.get_head_node
+        expect(head_node_err).to eq ERROR_EMPTY + ": in get_head_node"
+    end
+end
+
+describe LinkedListOfMine, ".get_head_node" do 
+    it "it returns head_node" do
+        test_ll = LinkedListOfMine.new(40)
+        test_ll.push(99)
+        head_node = test_ll.get_head_node
+        expect(head_node.data).to eq 40
+        expect(test_ll.size).to eq 2
+    end
+end
 
 describe LinkedListOfMine, ".get_last_node" do 
     it "it returns last_node error" do
         test_ll = LinkedListOfMine.new
         last_node_err = test_ll.get_last_node
-        expect(last_node_err).to eq "error: not enough elements"
+        expect(last_node_err).to eq ERROR_EMPTY + ": in get_last_node"
+    end
+end
+
+describe LinkedListOfMine, ".get_last_node" do 
+    it "it returns last_node" do
+        test_ll = LinkedListOfMine.new(40)
+        test_ll.push(99)
+        last_node = test_ll.get_last_node
+        expect(last_node.data).to eq 99
+        expect(test_ll.size).to eq 2
     end
 end
 
 describe LinkedListOfMine, ".get_penultimate_node" do 
     it "it returns penultimate_node error" do
         test_ll = LinkedListOfMine.new(40)
-        last_node_err = test_ll.get_penultimate_node
-        expect(last_node_err).to eq "error: not enough elements"
+        penultimate_node_err = test_ll.get_penultimate_node
+        expect(penultimate_node_err).to eq ERROR_NOT_ENOUGH_ELEMENTS + ": in get_penultimate_node"
+    end
+end
+
+describe LinkedListOfMine, ".get_penultimate_node" do 
+    it "it returns penultimate_node" do
+        test_ll = LinkedListOfMine.new(40)
+        test_ll.push(66)
+        test_ll.push(70)
+        test_ll.push(99)
+        penultimate_node = test_ll.get_penultimate_node
+        expect(penultimate_node.data).to eq 70
+        expect(test_ll.size).to eq 4
+    end
+end
+
+describe LinkedListOfMine, ".push" do 
+    it "it returns push data correctly" do
+        test_ll = LinkedListOfMine.new
+        test_ll.push(99)
+        expect(test_ll.get_head_node.data).to eq 99
+        expect(test_ll.size).to eq 1
     end
 end
 
@@ -45,19 +94,19 @@ describe LinkedListOfMine, ".push_to_front" do
 end
 
 describe LinkedListOfMine, ".pop" do 
+    it "it returns pop data error" do
+        test_ll = LinkedListOfMine.new
+        popped_node_err = test_ll.pop
+        expect(popped_node_err).to eq ERROR_EMPTY + ": in pop"
+    end
+end
+
+describe LinkedListOfMine, ".pop" do 
     it "it returns pop data correctly" do
         test_ll = LinkedListOfMine.new(40)
         popped_node = test_ll.pop
         expect(popped_node.data).to eq 40
         expect(test_ll.size).to eq 0
-    end
-end
-
-describe LinkedListOfMine, ".pop" do 
-    it "it returns pop data error" do
-        test_ll = LinkedListOfMine.new
-        popped_node_err = test_ll.pop
-        expect(popped_node_err).to eq "error: empty list"
     end
 end
 
@@ -76,30 +125,84 @@ describe LinkedListOfMine, ".shift" do
     it "it returns shift data error" do
         test_ll = LinkedListOfMine.new
         popped_node_err = test_ll.shift
-        expect(popped_node_err).to eq "error: empty list"
+        expect(popped_node_err).to eq ERROR_EMPTY + ": in shift"
     end
 end
 
-describe LinkedListOfMine, ".print_list" do 
+describe LinkedListOfMine, ".clear" do 
+    it "it returns correct error and size after clear" do
+        test_ll = LinkedListOfMine.new(40)
+        test_ll.push(99)
+        test_ll.clear()
+        expect(test_ll.get_head_node).to eq ERROR_EMPTY + ": in get_head_node"
+        expect(test_ll.size).to eq 0
+    end
+end
+
+describe LinkedListOfMine, ".remove" do 
+    it "it returns correct error after remove" do
+        test_ll = LinkedListOfMine.new
+        result = test_ll.remove(99)
+        expect(result).to eq ERROR_EMPTY + ": in remove"
+    end
+end
+
+describe LinkedListOfMine, ".remove" do 
+    it "it returns correct error and size after clear" do
+        test_ll = LinkedListOfMine.new("hey")
+        test_ll.push("hi")
+        test_ll.remove("hey")
+        expect(test_ll.size).to eq 1
+    end
+end
+
+describe LinkedListOfMine, ".remove" do 
+    it "it returns correct error and size after clear" do
+        test_ll = LinkedListOfMine.new("hey")
+        test_ll.push("hi")
+        test_ll.push("hello")
+        test_ll.remove("hello")
+        expect(test_ll.size).to eq 2
+    end
+end
+
+describe LinkedListOfMine, ".include?" do 
+    it "it returns correct val from include?" do
+        test_ll = LinkedListOfMine.new
+        test_ll.push("hi")
+        test_ll.push("hello")
+        test_ll.push("hey")
+        result = test_ll.include?("hi")
+        expect(result).to eq true
+        result = test_ll.include?("hello")
+        expect(result).to eq true
+        result = test_ll.include?("hey")
+        expect(result).to eq true
+        result = test_ll.include?("hello3")
+        expect(result).to eq false
+    end
+end
+
+describe LinkedListOfMine, ".inspect" do 
     it "it returns print_list string correctly" do
         test_ll = LinkedListOfMine.new(0)
         for i in (1..5) do 
             test_ll.push(i)
         end
-        out_str = test_ll.print_list
-        expect(out_str).to eq "[ Head 0: 0 --> Node 1: 1 --> Node 2: 2 --> Node 3: 3 --> Node 4: 4 --> Node 5: 5 --> nil ]"
+        out_str = test_ll.inspect
+        expect(out_str).to eq "\"[ Head: 0 --> 1 --> 2 --> 3 --> 4 --> 5 --> nil ]\""
     end
 end
 
-describe LinkedListOfMine, ".print_list" do 
+describe LinkedListOfMine, ".inspect" do 
     it "it returns print_list string error" do
         test_ll = LinkedListOfMine.new(0)
         for i in (1..5) do 
             test_ll.push(i)
         end
         test_ll.clear
-        out_str_err = test_ll.print_list
-        expect(out_str_err).to eq "error: empty list"
+        out_str_err = test_ll.inspect
+        expect(out_str_err).to eq "\"[ Head:  --> nil ]\""
     end
 end
 
@@ -109,92 +212,126 @@ hm = HashMapOfMine.new(1)
 hm.add("hello", "world")
 hm.add("foo", "bar")
 puts hm.hash(20)
-puts hm.print_hash_map
+puts hm.inspect
 puts hm.get("hello")
 hm.get("hi")
-hm.delete("hello")
-puts hm.print_hash_map
+hm.remove("hello")
+puts hm.inspect
 puts hm.size
 
 describe HashMapOfMine, ".add" do 
     it "it adds one record" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        hm_size = hm.size
+        test_hm = HashMapOfMine.new
+        test_hm.add("hello", "world")
+        hm_size = test_hm.size
         expect(hm_size).to eq 1
     end
 end
 
 describe HashMapOfMine, ".add" do 
     it "it adds two records to starting hash_map of size 1" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        hm.add("foo", "bar")
-        hm_size = hm.size
+        test_hm = HashMapOfMine.new(1)
+        test_hm.add("hello", "world")
+        test_hm.add("foo", "bar")
+        hm_size = test_hm.size
         expect(hm_size).to eq 2
     end
 end
 
 describe HashMapOfMine, ".get" do 
+    it "it gets correct error from get" do
+        test_hm = HashMapOfMine.new
+        val = test_hm.get("hello")
+        expect(val).to eq ERROR_EMPTY + ": in get"
+    end
+end
+
+describe HashMapOfMine, ".get" do 
     it "it gets correct value from key" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        val = hm.get("hello")
+        test_hm = HashMapOfMine.new(1)
+        test_hm.add("hello", "world")
+        val = test_hm.get("hello")
         expect(val).to eq "world"
     end
 end
 
-describe HashMapOfMine, ".delete" do 
+describe HashMapOfMine, ".get_keys" do 
+    it "it gets correct error from get_keys" do
+        test_hm = HashMapOfMine.new
+        val = test_hm.get_keys()
+        expect(val).to eq ERROR_EMPTY + ": in get_keys"
+    end
+end
+
+# describe HashMapOfMine, ".get_keys" do 
+#     it "it gets correct value from get_keys" do
+#         test_hm = HashMapOfMine.new(1)
+#         test_hm.add("hello", "world")
+#         val = test_hm.get("hello")
+#         expect(val).to eq "world"
+#     end
+# end
+
+describe HashMapOfMine, ".get_vals" do 
+    it "it gets correct error from get_vals" do
+        test_hm = HashMapOfMine.new
+        val = test_hm.get_vals()
+        expect(val).to eq ERROR_EMPTY + ": in get_vals"
+    end
+end
+
+# describe HashMapOfMine, ".get_vals" do 
+#     it "it gets correct value from get_vals" do
+#         test_hm = HashMapOfMine.new(1)
+#         test_hm.add("hello", "world")
+#         val = test_hm.get("hello")
+#         expect(val).to eq "world"
+#     end
+# end
+
+describe HashMapOfMine, ".remove" do 
+    it "it gets correct error from remove" do
+        test_hm = HashMapOfMine.new
+        val = test_hm.remove("hello")
+        expect(val).to eq ERROR_EMPTY + ": in remove"
+    end
+end
+
+describe HashMapOfMine, ".remove" do 
     it "it deletes one record" do
-        hm = HashMapOfMine.new(1)
-        hm.add("hello", "world")
-        hm.delete("hello")
-        hm_size = hm.size
+        test_hm = HashMapOfMine.new(1)
+        test_hm.add("hello", "world")
+        test_hm.remove("hello")
+        hm_size = test_hm.size
         expect(hm_size).to eq 0
     end
 end
 
-# describe HashMapOfMine, ".create_buckets" do 
-#     it "it creates correct number of buckets" do
-#         hm = HashMapOfMine.new
-#         hm.set_map_size(3)
-#         buckets = hm.create_buckets
-#         hm_size = hm.map_size
-#         expect(hm_size).to eq 3
-#         expect(buckets).to eq [[],[],[]]
-#     end
-# end
+describe HashMapOfMine, ".include?" do 
+    it "it returns correct val from include?" do
+        test_hm = HashMapOfMine.new
+        test_hm.add("hi", "world")
+        test_hm.add("hello", "world")
+        test_hm.add("hey", "world")
+        result = test_hm.include?("hi")
+        expect(result).to eq true
+        result = test_hm.include?("hello")
+        expect(result).to eq true
+        result = test_hm.include?("hey")
+        expect(result).to eq true
+        result = test_hm.include?("hello3")
+        expect(result).to eq false
+    end
+end
 
-# describe HashMapOfMine, ".check_bucket_for_key" do 
-#     it "it adds one record" do
-#         hm = HashMapOfMine.new(1)
-#         hm.add("hello", "world")
-#         bucket = hm.get_bucket_for_key("hello")
-#         result = hm.check_bucket_for_key("hello", bucket)
-#         expect(result[0]).to eq true
-#         result = hm.check_bucket_for_key("world", bucket)
-#         expect(result[0]).to eq false
-#     end
-# end
-
-# describe HashMapOfMine, ".print_hash_map" do 
-#     it "it prints hash_map with one record" do
-#         hm = HashMapOfMine.new(1)
-#         hm.add("hello", "world")
-#         print_str = hm.print_hash_map
-#         expect(print_str).to eq "{\n  hello:  world\n}"
-#     end
-# end
-
-# describe HashMapOfMine, ".print_hash_map" do 
-#     it "it prints hash_map with two records" do
-#         hm = HashMapOfMine.new(1)
-#         hm.add("hello", "world")
-#         hm.add("foo", "bar")
-#         print_str = hm.print_hash_map
-#         expect(print_str).to eq "{\n  hello:  world,\n  foo:  bar\n}"
-#     end
-# end
+describe HashMapOfMine, ".inspect" do 
+    it "it prints hash_map with one record" do
+        test_hm = HashMapOfMine.new(1)
+        test_hm.add("hello", "world")
+        print_str = test_hm.inspect
+        expect(print_str).to eq "\"{hello => world}\""
+    end
+end
 
 # ----------------------- Array -------------------------
 
