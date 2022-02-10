@@ -4,56 +4,67 @@ require 'array'
 require 'linked_list'
 
 class HashMapOfMine
+    include Enumerable
 
-    attr_accessor :buckets, :size, :map_size, :num_buckets
+    attr_accessor :buckets, :size, :n_buckets
     
-    def initialize(size=nil)
-        set_map_size(0)
+    def initialize(size=nil, items=[])
+        set_n_buckets(5)
         set_size(0)
-        if map_size != nil
-            set_map_size(size)
-            @hash_map = create_buckets()
+        if size != nil
+            set_n_buckets(size)
+        end
+        @hash_map = create_buckets()
+        
+        unless items.empty?
+            items.each do |record|
+                key = record[0]
+                val = record[1]
+                add(key, val)
+            end
         end
     end
 
     def create_buckets
-        if @map_size == 0
-            puts "error : no elements to create buckets"
-        end
-        buckets = []
-        for i in (1..@map_size)
+        buckets = []    # //TODO change to ArrayOfMine.new(@n_buckets)
+        for i in (1..@n_buckets)
             buckets.append(LinkedListOfMine.new)
         end
-        return buckets
+        buckets
     end
 
     def hash(key)
-        return key.hash % @map_size
+        return key.hash % @n_buckets
     end
 
     #// TODO add fix to make test pass... resize map upon addition that exceeds the size
     def add(key, value)
-        if @size == 0
-            set_map_size(1)
-            @hash_map = create_buckets()
-        end
-        if @size == @map_size
+        return val if include?(key)
+        
+        if @size == @n_buckets
             resize()
-        end
-        bucket = get_bucket_for_key(key)
-        result = check_bucket_for_key(key, bucket)
-        key_exists = result[0]
-        if key_exists
-            bucket[result[1]] = [key, value]
+            add(key, value)
         else
+            bucket = get_bucket_for_key(key)
+            # result = check_bucket_for_key(key, bucket)
+            # key_exists = result[0]
+            # if key_exists
+            #     bucket[result[1]] = [key, value]
+            # else
+            #     bucket.push([key, value])
+            # end
             bucket.push([key, value])
+            set_size(@size + 1)
         end
-        set_size(@size + 1)
+
+        value
     end
+
+    alias :[]= :add
 
     # // TODO make private??
     def get_bucket_for_key(key)
-        if @map_size == 0
+        if @n_buckets == 0
             puts "error : no elements in hash_map to get"
         end
         hashed = hash(key)
@@ -182,14 +193,14 @@ class HashMapOfMine
         end
         temp_size = @size
         temp_size = temp_size*2
-        set_map_size(temp_size)
+        set_n_buckets(temp_size)
         temp_hash_map = create_buckets()
         @hash_map.each do |bucket|
             bucket.each do  |record|
                 key = record.data[0]
                 value = record.data[1]
-                hashed = hash(key)
-                bucket = temp_hash_map.at(hashed)
+                index = hash(key)
+                bucket = temp_hash_map.at(index)
                 result = check_bucket_for_key(key, bucket)
                 key_exists = result[0]
                 if key_exists
@@ -202,17 +213,18 @@ class HashMapOfMine
         @hash_map = temp_hash_map
     end
 
-    def set_map_size(size)
-        @map_size = size
+    def set_n_buckets(size)
+        @n_buckets = size
     end
 
     def set_size(size)
         @size = size
     end
     
-    # //TODO 
-    def include?()
-
+    def include?(key)
+        index = hash(key)
+        bucket = @hash_map.at(index)
+        bucket.include?(key)
     end
 
     # //TODO 
@@ -224,9 +236,9 @@ class HashMapOfMine
         end
     end
 
-    # //TODO 
     def inspect
-
+        records = map { |key, val| "#{key} => #{val}"}.join(", ")
+        "{#{records}}".inspect
     end
 
 end

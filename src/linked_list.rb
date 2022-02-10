@@ -132,7 +132,16 @@ class LinkedListOfMine
         return print_str
     end
 
-    # //TODO 
+    def include?(something)
+        cur_node = @head
+        while cur_node != nil
+            return true if cur_node.include?(something)
+            cur_node = cur_node.next_node
+        end
+        return false
+    end
+
+    # //TODO check
     def each(&block)
         cur_node = @head
         while cur_node != nil

@@ -9,4 +9,8 @@ class NodeOfMine
         @next_node = next_node
     end
 
+    def include?(something)
+        @data.include?(something)
+    end
+
 end
