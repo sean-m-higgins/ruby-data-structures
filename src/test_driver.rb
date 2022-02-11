@@ -374,7 +374,8 @@ describe HashMapOfMine, ".inspect" do
 end
 
 # ----------------------- Array -------------------------
-
+puts "\nStart Array Tests"
+arr = ArrayOfMine.new
 
 
 # ----------------------- Stack -------------------------

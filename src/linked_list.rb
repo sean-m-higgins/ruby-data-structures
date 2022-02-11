@@ -13,11 +13,8 @@ class LinkedListOfMine
     end
 
     def empty? 
-        if @head == nil
-            return true
-        else
-            return false
-        end
+        return true if @head == nil
+        return false
     end
 
     def get_head_node

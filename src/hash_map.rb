@@ -31,9 +31,8 @@ class HashMapOfMine
             return true
         elsif check_size == 0
             return true
-        else
-            return false
         end
+        return false
     end
 
     def create_buckets

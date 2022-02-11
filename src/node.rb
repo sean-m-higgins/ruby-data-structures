@@ -1,4 +1,4 @@
-
+$LOAD_PATH << File.dirname(__FILE__)
 
 class NodeOfMine
 
@@ -29,7 +29,7 @@ class NodeOfMine
         else
             return include_?(@data, something)
         end
-        
+
         return false
     end
     
