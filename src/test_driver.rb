@@ -9,6 +9,7 @@ require 'stack'
 require "rspec/autorun"
 
 # ----------------------- Linked List -------------------------
+puts "Start Linked List Tests"
 ll = LinkedListOfMine.new(40)
 ll.push(99)
 ll.push(77)
@@ -166,6 +167,29 @@ describe LinkedListOfMine, ".remove" do
     end
 end
 
+describe LinkedListOfMine, ".remove" do 
+    it "it returns correct error and size after clear" do
+        test_ll = LinkedListOfMine.new(7)
+        test_ll.push(9)
+        test_ll.push(8)
+        test_ll.remove(7)
+        expect(test_ll.size).to eq 2
+    end
+end
+
+describe LinkedListOfMine, ".remove" do 
+    it "it returns correct error and size after clear" do
+        test_ll = LinkedListOfMine.new([7,9])
+        hm = HashMapOfMine.new
+        hm.add(9, 0)
+        test_ll.push(hm)
+        test_ll.push(8)
+        test_ll.remove([7, 9])
+        test_ll.remove(hm)
+        expect(test_ll.size).to eq 1
+    end
+end
+
 describe LinkedListOfMine, ".include?" do 
     it "it returns correct val from include?" do
         test_ll = LinkedListOfMine.new
@@ -208,6 +232,7 @@ end
 
 
 # ----------------------- Hash Map -------------------------
+puts "\nStart Hash Map Tests"
 hm = HashMapOfMine.new(1)
 hm.add("hello", "world")
 hm.add("foo", "bar")
@@ -252,6 +277,19 @@ describe HashMapOfMine, ".get" do
         test_hm.add("hello", "world")
         result = test_hm.get("hello")
         expect(result).to eq "world"
+    end
+end
+
+describe HashMapOfMine, ".get" do 
+    it "it gets correct value from key" do
+        test_hm = HashMapOfMine.new(1)
+        test_hm.add(90, 99)
+        test_hm.add(70, 77)
+        test_hm.remove(70)
+        result = test_hm.get(90)
+        expect(result).to eq 99
+        result = test_hm.get(70)
+        expect(result).to eq nil
     end
 end
 

@@ -29,7 +29,7 @@ class HashMapOfMine
     def empty? 
         if @size == 0
             return true
-        elseif check_size == 0
+        elsif check_size == 0
             return true
         else
             return false
