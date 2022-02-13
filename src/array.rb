@@ -3,13 +3,13 @@ $LOAD_PATH << File.dirname(__FILE__)
 class ArrayOfMine
     include Enumerable
 
-    attr_accessor :arr, :length
+    attr_accessor :data, :length
 
     def initialize(items=[], length=nil)
         if length != nil
-            @arr = HashMapOfMine.new(length)
+            @data = HashMapOfMine.new(length)
         else
-            @arr = HashMapOfMine.new
+            @data = HashMapOfMine.new
         end
 
         set_length(0)
@@ -19,14 +19,14 @@ class ArrayOfMine
     end
 
     def empty?
-        return true if @length == 0
+        return true if @length <= 0
         return false
     end
 
     def append(something)
-        @arr.add(@length, something)
+        @data.add(@length, something)
         set_length(@length + 1)
-        return @arr
+        return @data
     end
 
     # remove from back
@@ -34,8 +34,7 @@ class ArrayOfMine
         if empty?
             return ERROR_EMPTY + ": in pop"
         end
-        set_length(@length - 1)
-        return remove_at(@length)
+        return remove_at(@length - 1)
     end
 
     # remove from front
@@ -43,7 +42,6 @@ class ArrayOfMine
         if empty?
             return ERROR_EMPTY + ": in shift"
         end
-        set_length(@length - 1)
         return remove_at(0)
     end
 
@@ -51,18 +49,20 @@ class ArrayOfMine
         if empty?
             return ERROR_EMPTY + ": in at"
         end
-        return @arr.get(index)
+        return @data.get(index)
     end
 
     def insert(index, something)
         if index > @length
             return ERROR_OUT_OF_INDEX_RANGE + ": in insert"
         end
-
+        update_indices_insert(index)
+        @data.add(index, something)
+        set_length(@length + 1)
     end
 
     def clear
-        @arr = HashMapOfMine.new
+        @data = HashMapOfMine.new
         set_length(0)
     end
 
@@ -70,8 +70,10 @@ class ArrayOfMine
         if empty?
             return ERROR_EMPTY + ": in remove_at"
         end
-        elem = @arr.at(index)
-        remove(elem)
+        elem = @data.get(index)
+        @data.remove(index)
+        update_indices_remove(index)
+        set_length(@length - 1)
         return elem
     end
 
@@ -79,28 +81,54 @@ class ArrayOfMine
         if empty?
             return ERROR_EMPTY + ": in remove"
         end
+        index = nil
         if include?(something)
             index = get_index(something)
-            update_indices(index)
         end
-        @arr.remove(something)
-        return something
+        if index != nil
+            return remove_at(index)
+        else
+            return ERROR_NOT_FOUND + ": in remove"
+        end
     end
 
-    def update_indices(index)
+    def update_indices_remove(index)
+        (index..@length).each do |new_i_key|
+            old_i_key = new_i_key + 1
+            val = @data.get(old_i_key)
+            @data.add(new_i_key, val)
+        end
+    end
 
+    def update_indices_insert(index)
+        (index..@length).reverse_each do |new_i_key|
+            old_i_key = new_i_key - 1
+            val = @data.get(old_i_key)
+            @data.add(new_i_key, val)
+        end
     end
 
     def set_length(len)
         @length = len
     end
 
+    # TODO have method just for index? for index and value??
     def include?(something)
-    
+        index = nil
+        if include?(something)
+            index = get_index(something)
+        end
+        if index != nil
+            @
+        else
+            return ERROR_NOT_FOUND + ": in remove"
+        end
+
+        false
     end
 
     def each(&block)
-        @arr.each do |elem|
+        @data.each do |elem|
             block.call(elem)
         end
     end

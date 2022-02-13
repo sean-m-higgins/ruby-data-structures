@@ -6,6 +6,8 @@ require 'node'
 class LinkedListOfMine
     include Enumerable
 
+    attr_accessor :head
+
     def initialize(data=nil)
         if data != nil
             push(data)
@@ -17,12 +19,12 @@ class LinkedListOfMine
         return false
     end
 
-    def get_head_node
-        if empty?
-            return ERROR_EMPTY + ": in get_head_node"
-        end
-        return @head
-    end
+    # def get_head_node
+    #     if empty?
+    #         return ERROR_EMPTY + ": in get_head_node"
+    #     end
+    #     return @head
+    # end
 
     def get_last_node
         if empty?
@@ -135,7 +137,7 @@ class LinkedListOfMine
             return true if cur_node.include?(something)
             cur_node = cur_node.next_node
         end
-        return false
+        false
     end
 
     # //TODO check

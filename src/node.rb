@@ -17,6 +17,8 @@ class NodeOfMine
                     return true if include_?(item, orig_som)
                 end
                 return false
+            elsif som.is_a?(NodeOfMine)
+                return true if include_?(som.data, orig_som)
             else
                 return false
             end
@@ -27,6 +29,7 @@ class NodeOfMine
         elsif @data.respond_to?(:include?)
             return @data.include?(something)
         else
+            puts "suc"
             return include_?(@data, something)
         end
 

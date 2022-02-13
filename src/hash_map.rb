@@ -27,9 +27,9 @@ class HashMapOfMine
     end
 
     def empty? 
-        if @size == 0
+        if @size <= 0
             return true
-        elsif check_size == 0
+        elsif check_size <= 0
             return true
         end
         return false
@@ -54,14 +54,17 @@ class HashMapOfMine
     end
 
     def add(key, value)
-        return value if include?(key)
-        
-        if @size == @n_buckets
+        if include?(key)
+            remove(key)
+            add(key, value)
+        elsif @size == @n_buckets
             resize()
             add(key, value)
         else
             bucket = get_bucket_for_key(key)
-            bucket.push([key, value])
+            k_v_ll = LinkedListOfMine.new(key)
+            k_v_ll.push(value)
+            bucket.push(k_v_ll)
             set_size(@size + 1)
         end
 
@@ -77,7 +80,10 @@ class HashMapOfMine
         index = hash(key)
         bucket = @hash_map.at(index)
         bucket.each do |record|
-            return record.data[1] if record.data[0] == key
+            record_key = record.data.head.data
+            record_value = record.data.head.next_node.data
+            return record_value if record_key == key
+            return 
         end
     end
 
@@ -88,7 +94,7 @@ class HashMapOfMine
         keys = []   #TODO update to ArrayOfMine.new
         @hash_map.each do |bucket|
             bucket.each do  |record|
-                keys.append(record.data[0])
+                keys.append(record.data.head.data)
             end
         end
         keys
@@ -101,7 +107,7 @@ class HashMapOfMine
         vals = []   #TODO update to ArrayOfMine.new
         @hash_map.each do |bucket|
             bucket.each do  |record|
-                vals.append(record.data[1])
+                vals.append(record.data.head.next_node.data)
             end
         end
         vals
@@ -124,11 +130,13 @@ class HashMapOfMine
         temp_hash_map = create_buckets()
         @hash_map.each do |bucket|
             bucket.each do  |record|
-                key = record.data[0]
-                value = record.data[1]
-                index = hash(key)
+                record_key = record.data.head.data
+                record_value = record.data.head.next_node.data
+                index = hash(record_key)
                 bucket = temp_hash_map.at(index)
-                bucket.push([key, value])
+                k_v_ll = LinkedListOfMine.new(record_key)
+                k_v_ll.push(record_value)
+                bucket.push(k_v_ll)
             end
         end
         @hash_map = temp_hash_map
@@ -161,7 +169,9 @@ class HashMapOfMine
     def each(&block)
         @hash_map.each do |bucket|
             bucket.each do  |record|
-                block.call(record.data[0], record.data[1])
+                record_key = record.data.head.data
+                record_value = record.data.head.next_node.data
+                block.call(record_key, record_value)
             end
         end
     end

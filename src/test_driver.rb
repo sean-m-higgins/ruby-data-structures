@@ -20,19 +20,11 @@ puts ll.pop.data
 puts ll.size
 puts ll.inspect
 
-describe LinkedListOfMine, ".get_head_node" do 
-    it "it returns head_node error" do
-        test_ll = LinkedListOfMine.new
-        head_node_err = test_ll.get_head_node
-        expect(head_node_err).to eq ERROR_EMPTY + ": in get_head_node"
-    end
-end
-
-describe LinkedListOfMine, ".get_head_node" do 
+describe LinkedListOfMine, ".head" do 
     it "it returns head_node" do
         test_ll = LinkedListOfMine.new(40)
         test_ll.push(99)
-        head_node = test_ll.get_head_node
+        head_node = test_ll.head
         expect(head_node.data).to eq 40
         expect(test_ll.size).to eq 2
     end
@@ -80,7 +72,7 @@ describe LinkedListOfMine, ".push" do
     it "it returns push data correctly" do
         test_ll = LinkedListOfMine.new
         test_ll.push(99)
-        expect(test_ll.get_head_node.data).to eq 99
+        expect(test_ll.head.data).to eq 99
         expect(test_ll.size).to eq 1
     end
 end
@@ -89,7 +81,7 @@ describe LinkedListOfMine, ".push_to_front" do
     it "it returns push_to_front data correctly" do
         test_ll = LinkedListOfMine.new(40)
         test_ll.push_to_front(99)
-        expect(test_ll.get_head_node.data).to eq 99
+        expect(test_ll.head.data).to eq 99
         expect(test_ll.size).to eq 2
     end
 end
@@ -135,7 +127,7 @@ describe LinkedListOfMine, ".clear" do
         test_ll = LinkedListOfMine.new(40)
         test_ll.push(99)
         test_ll.clear()
-        expect(test_ll.get_head_node).to eq ERROR_EMPTY + ": in get_head_node"
+        expect(test_ll.head).to eq nil
         expect(test_ll.size).to eq 0
     end
 end
@@ -260,6 +252,18 @@ describe HashMapOfMine, ".add" do
         test_hm.add("foo", "bar")
         hm_size = test_hm.size
         expect(hm_size).to eq 2
+    end
+end
+
+describe HashMapOfMine, ".add" do 
+    it "it adds two records, second replaces first, finishing size of 1" do
+        test_hm = HashMapOfMine.new
+        test_hm.add("hello", "world")
+        test_hm.add("hello", "bar")
+        hm_size = test_hm.size
+        expect(hm_size).to eq 1
+        hm_val = test_hm.get("hello")
+        expect(hm_val).to eq "bar"
     end
 end
 
